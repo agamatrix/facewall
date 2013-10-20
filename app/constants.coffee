@@ -1,6 +1,6 @@
 constants =
 
-    company_name: 'HubSpot'
+    company_name: 'AgaMatrix'
     hosted_domain: 'tools.hubteam.com'
 
     app_name: 'facewall'
