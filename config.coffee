@@ -46,4 +46,4 @@ exports.config =
             joinTo: 'static/js/app.js'
 
     server:
-        base: '/facewall'
+        port: 7000
