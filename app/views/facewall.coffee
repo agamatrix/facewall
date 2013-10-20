@@ -70,8 +70,8 @@ class FaceWallView extends View
             employee_img = new Image()
 
             employee_img.onload = ->
-                employee_loaded()
                 goodBucket.push employee
+                employee_loaded()
 
             employee_img.onerror = ->
                 employee_loaded()
@@ -93,30 +93,34 @@ class FaceWallView extends View
                     @columnWidth = (Math.sqrt(($(window).width() * $(window).height())  / goodBucket.length)) * (1 / 0.7)
                     view.render()
 
-                _.each goodBucket, (employee) ->
-                    if row_bucket.length is grid.length
-
-                        $row = $ """
-                            <div class="employee-row"></div>
-                        """
-                        $fw.append $row
-
-                        _.each row_bucket, (employee_in_row, index) ->
-
-                            width = grid[index]
-
-                            setTimeout ->
-                                $('#loader').hide() is index is 0
-                                $row.append $employee(employee_in_row, grid[0], width)
-
-                            , (((row_count * grid.length) + index) * 30)
+                _.each goodBucket, (employee, index) ->
+                    if row_bucket.length == grid.length
+                        writeEmployeeRow(row_bucket, row_count)
 
                         row_bucket = []
                         row_count += 1
 
                     row_bucket.push employee
 
+                writeEmployeeRow(row_bucket, row_count)
+
                 return
+
+        writeEmployeeRow = (row_bucket, row_count) =>
+            $row = $ """
+                <div class="employee-row"></div>
+            """
+            $fw.append $row
+
+            _.each row_bucket, (employee_in_row, index) ->
+
+                width = grid[index]
+
+                setTimeout ->
+                    $('#loader').hide() is index is 0
+                    $row.append $employee(employee_in_row, grid[0], width)
+
+                , (((row_count * grid.length) + index) * 30)
 
         $fw.undelegate('a.employee', 'click').delegate 'a.employee', 'click', (e) =>
             view.paused = true
